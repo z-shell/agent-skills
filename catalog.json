@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "marketplace": {
     "name": "z-shell",
     "displayName": "Z-Shell",
@@ -16,7 +16,7 @@
       "description": "Skills for installing and using Zi, creating and maintaining Zsh plugins, testing with ZUnit and running controlled checks in zd.",
       "category": "Productivity",
       "keywords": ["zsh", "zi", "zsh-plugin", "zunit", "zd"],
-      "skills": ["zunit"]
+      "skills": ["zsh-plugin", "zunit"]
     }
   ]
 }

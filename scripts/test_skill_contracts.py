@@ -49,5 +49,40 @@ class ZunitContractTests(unittest.TestCase):
         self.assertIn("pre-load state", " ".join(self.text.split()))
 
 
+class ZshPluginContractTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.text = read_skill("zsh-plugin")
+        self.flat = " ".join(self.text.split())
+
+    def test_names_the_execution_profiles_and_lifecycle(self) -> None:
+        for fragment in (
+            "sourced-library",
+            "autoload-function",
+            "isolated",
+            "Invoke `<identifier>_plugin_unload`",
+            "assert ownership-aware restoration",
+        ):
+            with self.subTest(fragment=fragment):
+                self.assertIn(fragment, self.flat)
+
+    def test_scaffolds_from_the_shipped_template_copy(self) -> None:
+        self.assertIn("`templates/template.plugin.zsh` in this skill", self.flat)
+        self.assertTrue(
+            (SKILLS / "zsh-plugin" / "templates" / "template.plugin.zsh").is_file()
+        )
+
+    def test_covers_maintenance_and_routes_review_elsewhere(self) -> None:
+        for fragment in (
+            "## Maintain an existing plugin",
+            "### Bring a plugin to Standard 2",
+            "### Keep unload exact",
+            "### Wire CI",
+            "zsh-plugin-reviewer",
+        ):
+            with self.subTest(fragment=fragment):
+                self.assertIn(fragment, self.text)
+        self.assertNotIn("disable-model-invocation", self.text)
+
+
 if __name__ == "__main__":
     unittest.main()
