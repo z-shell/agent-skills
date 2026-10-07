@@ -1,0 +1,81 @@
+---
+name: CI
+
+# Validates the catalog, the generated manifests and the skills (ADR-0037 in
+# z-shell/.github). scripts/catalog.py owns the skill rules; the Claude Code
+# validator checks the marketplace and every plugin manifest.
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*.*.*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Pinned so a validator release cannot change the result of an unchanged tree.
+  CLAUDE_CODE_VERSION: 2.1.292
+
+jobs:
+  catalog:
+    name: Catalog
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check generated manifests and skill rules
+        run: python3 scripts/catalog.py --check
+      - name: Run generator tests
+        run: python3 -m unittest discover -s scripts -p 'test_*.py' -v
+      - name: Check the release tag matches the catalog version
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="$(python3 -c 'import json; print(json.load(open("catalog.json"))["version"])')"
+          if [ "v${version}" != "${TAG}" ]; then
+            echo "::error::tag ${TAG} does not match catalog.json version ${version}"
+            exit 1
+          fi
+
+  plugins:
+    name: Plugin validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install Claude Code
+        run: npm install --global "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}"
+      - name: Validate the marketplace and every plugin
+        run: |
+          claude plugin validate . --strict
+          for plugin in plugins/*/; do
+            claude plugin validate "${plugin%/}" --strict
+          done
+
+  links:
+    name: Links
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check local Markdown links
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          args: --offline --no-progress --include-fragments './**/*.md'
+          fail: true
+          jobSummary: true

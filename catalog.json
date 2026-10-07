@@ -1,0 +1,22 @@
+{
+  "version": "0.1.0",
+  "marketplace": {
+    "name": "z-shell",
+    "displayName": "Z-Shell",
+    "description": "Agent skills for Zi, Zsh plugins, ZUnit and zd from the Z-Shell organization.",
+    "owner": {
+      "name": "Z-Shell",
+      "url": "https://github.com/z-shell"
+    }
+  },
+  "plugins": [
+    {
+      "name": "z-shell",
+      "displayName": "Z-Shell",
+      "description": "Skills for installing and using Zi, creating and maintaining Zsh plugins, testing with ZUnit and running controlled checks in zd.",
+      "category": "Productivity",
+      "keywords": ["zsh", "zi", "zsh-plugin", "zunit", "zd"],
+      "skills": []
+    }
+  ]
+}
