@@ -107,5 +107,30 @@ class ZiDockerContractTests(unittest.TestCase):
                 self.assertRegex(link, r"^[0-9a-f]{40}/")
 
 
+class ZiInstallContractTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.text = read_skill("zi-install")
+
+    def test_is_user_invoked_in_both_runtimes(self) -> None:
+        self.assertIn(
+            "\ndisable-model-invocation: true\n",
+            self.text.split("\n---\n", 1)[0] + "\n",
+        )
+        policy = (SKILLS / "zi-install" / "agents" / "openai.yaml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("allow_implicit_invocation: false", policy)
+
+    def test_keeps_the_installer_safety_contract(self) -> None:
+        for fragment in (
+            "Do not write `.zshrc`",
+            "published installer checksums",
+            "Stop on a mismatch or on a missing line",
+            "zi-setup-result-v1",
+        ):
+            with self.subTest(fragment=fragment):
+                self.assertIn(fragment, " ".join(self.text.split()))
+
+
 if __name__ == "__main__":
     unittest.main()
