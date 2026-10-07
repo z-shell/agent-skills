@@ -84,5 +84,28 @@ class ZshPluginContractTests(unittest.TestCase):
         self.assertNotIn("disable-model-invocation", self.text)
 
 
+class ZiDockerContractTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.text = read_skill("zi-docker")
+
+    def test_covers_zi_runs_and_controlled_execution(self) -> None:
+        for fragment in (
+            "## Run Zi in a container",
+            "make shell",
+            "`zi_repo` and `zi_ref`",
+            "## Controlled Zsh execution",
+            "`runtime` for source tests or `module-build`",
+            "execution.json",
+            "grants no publication or external-write authority",
+        ):
+            with self.subTest(fragment=fragment):
+                self.assertIn(fragment, self.text)
+
+    def test_links_zd_docs_at_pinned_commits(self) -> None:
+        for link in self.text.split("https://github.com/z-shell/zd/blob/")[1:]:
+            with self.subTest(link=link[:60]):
+                self.assertRegex(link, r"^[0-9a-f]{40}/")
+
+
 if __name__ == "__main__":
     unittest.main()
