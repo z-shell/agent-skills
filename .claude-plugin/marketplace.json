@@ -1,0 +1,19 @@
+{
+  "name": "z-shell",
+  "owner": {
+    "name": "Z-Shell",
+    "url": "https://github.com/z-shell"
+  },
+  "metadata": {
+    "description": "Agent skills for Zi, Zsh plugins, ZUnit and zd from the Z-Shell organization.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "z-shell",
+      "source": "./plugins/z-shell",
+      "description": "Skills for installing and using Zi, creating and maintaining Zsh plugins, testing with ZUnit and running controlled checks in zd.",
+      "category": "Productivity"
+    }
+  ]
+}

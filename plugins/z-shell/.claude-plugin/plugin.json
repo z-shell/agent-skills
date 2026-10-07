@@ -1,0 +1,19 @@
+{
+  "name": "z-shell",
+  "version": "0.1.0",
+  "description": "Skills for installing and using Zi, creating and maintaining Zsh plugins, testing with ZUnit and running controlled checks in zd.",
+  "author": {
+    "name": "Z-Shell",
+    "url": "https://github.com/z-shell"
+  },
+  "homepage": "https://github.com/z-shell/agent-skills",
+  "repository": "https://github.com/z-shell/agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "zsh",
+    "zi",
+    "zsh-plugin",
+    "zunit",
+    "zd"
+  ]
+}

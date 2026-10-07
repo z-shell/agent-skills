@@ -1,0 +1,6 @@
+# Trunk re-points these at its per-clone cache; never commit them.
+.trunk/out
+.trunk/logs
+
+__pycache__/
+*.pyc
