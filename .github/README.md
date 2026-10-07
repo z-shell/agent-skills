@@ -34,7 +34,7 @@
 - Pinned copies for projects that need a skill for hosted agents, verified by the organization's approved-skill pins.
 
 > [!NOTE]
-> The repository is being set up. Skills move here from `z-shell/.github` one at a time ([z-shell/.github#741](https://github.com/z-shell/.github/issues/741)); until then the plugin installs with no skills.
+> Skills move here from `z-shell/.github` one at a time ([z-shell/.github#741](https://github.com/z-shell/.github/issues/741)). The plugin currently ships `zunit`; `zsh-plugin`, `zd`, `zi-install` and `zsh-manual-research` follow.
 
 ## Requirements
 
