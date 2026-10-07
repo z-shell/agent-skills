@@ -1,0 +1,28 @@
+---
+name: Zsh Policy Consumers
+
+# Thin caller for the organization Zsh policy-consumer check (decision 0037):
+# skills here that teach Zsh, such as zunit, must link the canonical Zsh
+# standard and policy in z-shell/.github and must not copy its rule catalog.
+# The called workflow checks the files the organization declares for this
+# repository against the policy at its own pinned commit, and never writes.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# No concurrency block here: the called workflow declares its own group from
+# github.workflow and github.ref, which resolve to the caller's values, so a
+# second declaration at this level deadlocks against it.
+
+jobs:
+  zsh-policy-consumers:
+    name: Zsh Policy Consumers
+    permissions:
+      contents: read
+    uses: z-shell/.github/.github/workflows/zsh-policy-consumers.yml@4ab292e9ce52666161ceecfd9c0d991a99cf0a89 # main
