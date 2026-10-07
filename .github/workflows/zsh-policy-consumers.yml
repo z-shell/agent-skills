@@ -25,4 +25,4 @@ jobs:
     name: Zsh Policy Consumers
     permissions:
       contents: read
-    uses: z-shell/.github/.github/workflows/zsh-policy-consumers.yml@4ab292e9ce52666161ceecfd9c0d991a99cf0a89 # main
+    uses: z-shell/.github/.github/workflows/zsh-policy-consumers.yml@fe2e72782c6ed1fa390c1b77fb470b47cf7dbc47 # main
